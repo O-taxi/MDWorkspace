@@ -1,0 +1,53 @@
+body {
+  background-color: #f5f5f5; /* ここに好きな色のコードを入れる */
+}
+
+header {
+  background-color: #f5f5f5; /* ここに好きな色のコードを入れる */
+}
+
+.main {
+  display: flex;
+  height: 100vh; /* ビューポートの高さに合わせます */
+  background-color: #f5f5f5; /* 背景色を設定（オプション） */
+}
+
+#sidebar {
+  flex: 0.6;  /* この値を変更することで、サイドバーの幅を調整できます */
+  background-color: #f5f5f5; /* 背景色を設定（オプション） */
+  overflow-y: auto;  /* 縦スクロールを許可 */
+  border-right: 2px solid #808080; /* 右側の境界線（オプション） */
+  border-left: 2px solid #808080; /* 左側の境界線（オプション） */
+  border-top: 2px solid #808080; /* 上側の境界線（オプション） */
+  padding: 4px;  /* 内部のスペースを設定 */
+}
+
+.editor {
+  flex: 3;  /* この値を変更することで、エディターの幅を調整できます */
+  padding: 2px;  /* 内部のスペースを設定 */
+}
+
+#editor {
+  width: 50%;  /* エディターの幅を親要素に合わせる */
+  height: 100%; /* エディターの高さを親要素に合わせる */
+}
+
+.preview {
+  background-color: #0d1117;
+  flex: 3;  /* この値を変更することで、プレビューの幅を調整できます */
+  padding: 20px;  /* 内部のスペースを設定 */
+}
+
+#preview {
+  width: 100%;  /* プレビューの幅を親要素に合わせる */
+  height: 100%; /* プレビューの高さを親要素に合わせる */
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.filename:hover {
+  background-color: #e0e0e0; /* 背景色を変更 */
+  color: #333;               /* 文字色を変更 */
+}

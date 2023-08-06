@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>マークダウン管理システム</title>
+  <!-- SimpleMDEのスタイルシート -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/simplemde/1.11.2/simplemde.min.css">
+  <link rel="stylesheet" href="{{ url_for('static/css', filename='markdown_preview.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static/css', filename='styles.css') }}">
+  
+  <!-- markedとSimpleMDEのスクリプト -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.5/marked.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/simplemde/1.11.2/simplemde.min.js"></script>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+  <header>
+    <h1>{{ filename }}</h1>  <!-- 今開いているファイル名を表示 -->
+    <input type="text" id="search" placeholder="検索...">
+  </header>
+
+  <div class="main">
+    <div id="sidebar">
+      <p>ファイル一覧</p>
+    </div>
+    <div class="editor">
+      <textarea id="editor"></textarea>
+    </div>
+    <div class="preview">
+      <div id="preview"></div>
+    </div>
+  </div>
+
+  <script src="static/js/process_markdown.js"></script>
+</body>
+
+</html>
+
