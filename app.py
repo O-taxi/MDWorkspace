@@ -12,7 +12,7 @@ def read_md(filepath) -> str:
 
 @app.route('/')
 def index():
-    filename = './works/sample.md'  # 仮のファイル名
+    filename = 'Please choice file to open.'  # 仮のファイル名
     return render_template('index.html', filename=filename)
 
 @app.route('/files', methods=['GET'])

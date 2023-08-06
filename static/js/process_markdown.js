@@ -42,6 +42,7 @@ $(document).ready(function(){
     // ファイル名をクリックしたときに、そのファイルの内容を取得してエディタに表示
     $('.filename').click(function(){
         currentFile = $(this).text();
+        $('#currentFile').text(currentFile);
         $.get('/file/' + currentFile, function(data){
         simplemde.value(data);
         lastContent = simplemde.value();
