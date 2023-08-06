@@ -8,7 +8,6 @@ app = Flask(__name__)
 def read_md(filepath) -> str:
     with open(filepath, mode='r') as mdfile:
         mdcontent = mdfile.read()
-
     return Markup(markdown(mdcontent))
 
 @app.route('/')
@@ -20,7 +19,6 @@ def index():
 def get_files():
     base_dir = './works'
     files = os.listdir(base_dir)
-    print(files)
     return jsonify(files)
 
 @app.route('/file/<path:filename>', methods=['GET'])
