@@ -7,11 +7,10 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='css/markdown_preview.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
   
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>  
   <!-- markedとSimpleMDEのスクリプト -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.5/marked.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/simplemde/1.11.2/simplemde.min.js"></script>
-
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
 <body>
@@ -21,9 +20,7 @@
   </header>
 
   <div class="main">
-    <div id="sidebar">
-      <p>ファイル一覧</p>
-    </div>
+    <div id="sidebar"></div>
     <div class="editor">
       <textarea id="editor"></textarea>
     </div>
@@ -31,9 +28,9 @@
       <div id="preview"></div>
     </div>
   </div>
-
-  <script src="static/js/process_markdown.js"></script>
 </body>
+
+<script src="static/js/process_markdown.js"></script>
 
 </html>
 

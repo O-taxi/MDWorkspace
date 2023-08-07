@@ -40,5 +40,25 @@ def save_file():
     
     return ret
 
+@app.route('/rename_file', methods=['POST'])
+def rename_file():
+    base_dir = './works'
+    old_name = request.form.get('old_name')
+    new_name = request.form.get('new_name')
+    if not new_name.endswith(".md"):
+        new_name += ".md"
+    old_path = os.path.join(base_dir, old_name)
+    new_path = os.path.join(base_dir, new_name)
+    os.rename(old_path, new_path)  # ファイル名を変更
+    return "File renamed successfully", 200
+
+@app.route('/delete_file', methods=['POST'])
+def delete_file():
+    base_dir = './works'
+    filename = request.form.get('filename')
+    filepath = os.path.join(base_dir, filename)
+    os.remove(filepath)  # ファイルを削除
+    return "File deleted successfully", 200
+
 if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0', port=8000)
