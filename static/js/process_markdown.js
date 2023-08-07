@@ -34,49 +34,50 @@ setInterval(function() {
     }
 }, 5000); // 5秒ごとに実行
 
-// ページロード時にファイル一覧を取得し、サイドバーに表示
+// サイドバーに表示するファイルリストを更新する関数
 function updateFileList() {
     $('#sidebar').empty();  // 一覧を初期化
+    // "/files"エンドポイントからファイル名一覧を取得してサイドバー追加
     $.getJSON('/files', function(data){
-    data.forEach(function(file){
-        let fileContainer = $('<div>').addClass('file-container');
-        let fileNameDiv = $('<div>').text(file).addClass('filename clickable');
-        // ファイル削除、名前変更のドロップダウンメニュー
-        let menuButton = $('<button>').text('≡').addClass('menu-icon').hide(); // このボタンは最初は非表示です
-        let dropdownMenu = $('<div>').addClass('dropdown-menu');
-        // 名前変更
-        let renameLink = $('<a>').text('rename').addClass('rename clickable');
-        renameLink.attr('href', "#");
-        renameLink.on('click', function(event) {
-            event.preventDefault();
-            var newFileName = prompt("新しいファイル名を入力してください:");
-            if (newFileName) {
-                $.post('/rename_file', {old_name: file, new_name: newFileName}, function(data){
-                    alert(data);
-                    updateFileList()
-                });
-            }
-        });
-        // ファイル削除
-        let deleteLink =  $('<a>').text('delete').addClass('delete clickable');
-        deleteLink.attr('href', "#");
-        deleteLink.on('click', function(event) {
-            event.preventDefault();
-            var confirmDelete = confirm("削除したファイルは元に戻せません。本当にファイルを削除しますか？");
-            if (confirmDelete) {
-                $.post('/delete_file', {filename: file}, function(data){
-                    alert(data);
-                    updateFileList()
-                });
-            }
-        });
-        dropdownMenu.append(renameLink, deleteLink);  // メニューに追加
+        // ファイルコンテナをサイドバーに追加
+        data.forEach(function(file){
+            let fileContainer = $('<div>').addClass('file-container');
+            let fileNameDiv = $('<div>').text(file).addClass('filename clickable');
+            // ファイル削除、名前変更のドロップダウンメニュー
+            let menuButton = $('<button>').text('≡').addClass('menu-icon').hide(); // このボタンは最初は非表示です
+            let dropdownMenu = $('<div>').addClass('dropdown-menu');
+            // 名前変更
+            let renameLink = $('<a>').text('rename').addClass('rename clickable');
+            renameLink.attr('href', "#");
+            renameLink.on('click', function(event) {
+                event.preventDefault();
+                var newFileName = prompt("新しいファイル名を入力してください:");
+                if (newFileName) {
+                    $.post('/rename_file', {old_name: file, new_name: newFileName}, function(data){
+                        alert(data);
+                        updateFileList()
+                    });
+                }
+            });
+            // ファイル削除
+            let deleteLink =  $('<a>').text('delete').addClass('delete clickable');
+            deleteLink.attr('href', "#");
+            deleteLink.on('click', function(event) {
+                event.preventDefault();
+                var confirmDelete = confirm("削除したファイルは元に戻せません。本当にファイルを削除しますか？");
+                if (confirmDelete) {
+                    $.post('/delete_file', {filename: file}, function(data){
+                        alert(data);
+                        updateFileList()
+                    });
+                }
+            });
+            dropdownMenu.append(renameLink, deleteLink);  // メニューに追加
 
-        fileContainer.append(fileNameDiv, menuButton, dropdownMenu);
+            fileContainer.append(fileNameDiv, menuButton, dropdownMenu);
 
-        $('#sidebar').append(fileContainer);
+            $('#sidebar').append(fileContainer);
         });
-
         // ファイル名をクリックしたときに、そのファイルの内容を取得してエディタに表示
         $('.filename').click(function(){
             currentFile = $(this).text();
@@ -86,13 +87,13 @@ function updateFileList() {
             lastContent = simplemde.value();
             });
         });
-
+        // ファイルコンテナにホバーしているときにメニューアイコンを表示
         $('.file-container').hover(function(){
             $(this).find('.menu-icon').show();
         }, function(){
             $(this).find('.menu-icon').hide();
         });
-        
+        // メニューアイコンをクリックされるとドロップダウンメニューが表示
         $('.menu-icon').on('click', function() {
             // 他の開いているメニューを閉じる
             $('.dropdown-menu').hide();
@@ -101,15 +102,13 @@ function updateFileList() {
             $(this).siblings('.dropdown-menu').toggle();
         });
     });
-
-
 };
+// ページロード時updateFileListを実行
 $(document).ready(function(){
     updateFileList()
 });
 
-
-// メニュー外をクリックしたときにメニューを閉じる
+// ドロップダウンメニュー外をクリックしたときにメニューを閉じる
 $(document).on('click', function(event) {
     if (!$(event.target).closest('.file-container').length) {
         $('.dropdown-menu').hide();
