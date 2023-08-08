@@ -2,13 +2,17 @@
 <html>
 <head>
   <title>マークダウン管理システム</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/simplemde/1.11.2/simplemde.min.css">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/markdown_preview.css') }}">
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/simplemde/1.11.2/simplemde.min.css"> -->
+  <link rel="stylesheet" href="https://unpkg.com/easymde/dist/easymde.min.css">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/editor_custom_styles.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/markdown_preview.css') }}">
   
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>  
   <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.5/marked.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/simplemde/1.11.2/simplemde.min.js"></script>
+  <script src="https://unpkg.com/easymde/dist/easymde.min.js"></script>
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/simplemde/1.11.2/simplemde.min.js"></script> -->
+
 </head>
 
 <body>
@@ -18,7 +22,12 @@
   </header>
 
   <div class="main">
-    <div id="sidebar"></div>
+    <div class="sidebar">
+      ファイル一覧
+      <img id="create-file-icon" src="{{ url_for('static', filename='images/add_file.png') }}" alt="Create new file" width="10%">
+      <img id="create-dir-icon" src="{{ url_for('static', filename='images/add_folder.png') }}" alt="Create new directory" width="10%">
+      <div id="sidebar"></div>
+    </div>
     <div class="editor">
       <textarea id="editor"></textarea>
     </div>

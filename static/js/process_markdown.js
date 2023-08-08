@@ -1,5 +1,5 @@
 // SimpleMDEを初期化
-var simplemde = new SimpleMDE({ element: document.getElementById("editor") });
+var simplemde = new EasyMDE({ element: document.getElementById("editor") });
 // 現在開いているファイル名を格納する変数
 var currentFile = "";
 // 初期内容を保存
@@ -103,9 +103,30 @@ function updateFileList() {
         });
     });
 };
-// ページロード時updateFileListを実行
+
+// ページロード時の動作
 $(document).ready(function(){
     updateFileList()
+
+    $('#create-file-icon').click(function() {
+        var newFileName = prompt("新しいファイル名を入力してください:");
+        if (newFileName) {
+            $.post('/create_file', {filename: newFileName}, function(data){
+                alert(data);
+                updateFileList();
+            });
+        }
+    });
+
+    $('#create-dir-icon').click(function() {
+        var newDirectoryName = prompt("新しいディレクトリ名を入力してください:");
+        if (newDirectoryName) {
+            $.post('/create_directory', {dir_name: newDirectoryName}, function(data){
+                alert(data);
+                updateFileList();
+            });
+        }
+    });
 });
 
 // ドロップダウンメニュー外をクリックしたときにメニューを閉じる

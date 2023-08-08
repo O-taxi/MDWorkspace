@@ -1,28 +1,46 @@
+:root {
+  --font-color: #f5f5f5;
+  --background-color: #35395c;
+  --editor-background-color: #252952;
+  --line-color: #808080;
+}
+
 body {
-  background-color: #f5f5f5; /* ここに好きな色のコードを入れる */
+  background-color: var(--background-color); /* ここに好きな色のコードを入れる */
 }
 
 header {
-  background-color: #f5f5f5; /* ここに好きな色のコードを入れる */
+  background-color: var(--background-color); /* ここに好きな色のコードを入れる */
+  color: var(--font-color);
 }
 
 .main {
   display: flex;
-  background-color: #f5f5f5; /* 背景色を設定（オプション） */
+  background-color: var(--background-color); /* 背景色を設定（オプション） */
+}
+
+.sidebar {
+  font-size: 18px;
+  color: var(--font-color);
+  flex: 0.6;  /* この値を変更することで、サイドバーの幅を調整できます */
+  background-color: var(--background-color); /* 背景色を設定（オプション） */
+  /* overflow-y: auto;  縦スクロールを許可 */
+  border: 2px solid var(--line-color);
+  border-radius: 10px;
+  padding: 4px;  /* 内部のスペースを設定 */
 }
 
 #sidebar {
-  font-size: 18px;
+  font-size: 15px;
   flex: 0.6;  /* この値を変更することで、サイドバーの幅を調整できます */
-  background-color: #f5f5f5; /* 背景色を設定（オプション） */
+  background-color: var(--background-color); /* 背景色を設定（オプション） */
   overflow-y: auto;  /* 縦スクロールを許可 */
-  border-right: 2px solid #808080; /* 右側の境界線（オプション） */
-  border-left: 2px solid #808080; /* 左側の境界線（オプション） */
-  border-top: 2px solid #808080; /* 上側の境界線（オプション） */
+  border-top: 2px solid var(--line-color); /* 上側の境界線（オプション） */
   padding: 4px;  /* 内部のスペースを設定 */
 }
 
 .editor {
+  background-color: var(--editor-background-color);
   flex: 3;  /* この値を変更することで、エディターの幅を調整できます */
   padding: 2px;  /* 内部のスペースを設定 */
 }
@@ -36,6 +54,8 @@ header {
   background-color: #0d1117;
   flex: 3;  /* この値を変更することで、プレビューの幅を調整できます */
   padding: 20px;  /* 内部のスペースを設定 */
+  border: 2px solid var(--line-color);
+  border-radius: 10px;
 }
 
 #preview {
@@ -59,6 +79,27 @@ header {
   margin-left: 8px;
 }
 
+#create-file-icon {
+  cursor: pointer;
+  border: 2px solid transparent;
+  /* margin-top: 10px;  マージンを追加 */
+  /* vertical-align: middle;  top, bottom, text-top, text-bottomなども選択可能 */
+  transform: translateY(4px);
+}
+#create-file-icon:hover {
+  border: 2px solid var(--line-color);
+}
+
+#create-dir-icon {
+  cursor: pointer;
+  border: 2px solid transparent;
+  /* margin-top: 10px;  マージンを追加 */
+  /* vertical-align: middle;  top, bottom, text-top, text-bottomなども選択可能 */
+  transform: translateY(4px);
+}
+#create-dir-icon:hover {
+  border: 2px solid var(--line-color);
+}
 .dropdown-menu {
   font-size: 12px;
   padding: 1px;

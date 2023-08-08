@@ -1,0 +1,47 @@
+:root {
+    /* --font-color: #f5f5f5; */
+    --background-color: #35395c;
+    --editor-background-color: #252952;
+    --line-color: #808080;
+  }
+
+/* エディタの基本設定の変更 */
+.CodeMirror {
+    font-size: 16px !important;
+    background: var(--editor-background-color);
+    color: var(--font-color);
+}
+
+.CodeMirror-cursor {
+border-left: 2px solid #dbd9f7;  /* 赤色に設定していますが、お好みの色に変更してください */
+}
+
+/* スペルチェック機能を除去（日本語が全てハイライトされてしまうため） */
+.cm-spell-error {
+    background: none !important;
+}
+
+/* 見出しサイズ調整 */
+.cm-s-easymde .cm-header-1 {
+    font-size: 25px !important;
+}
+.cm-s-easymde .cm-header-2 {
+    font-size: 23px !important;
+}
+.cm-s-easymde .cm-header-3 {
+    font-size: 21px !important;
+}
+.cm-s-easymde .cm-header-4 {
+    font-size: 19px !important;
+}
+.cm-s-easymde .cm-header-5 {
+    font-size: 17px !important;
+}
+.cm-s-easymde .cm-header-6 {
+    font-size: 15px !important;
+}
+
+/* アイコンの色を変更 */
+.editor-toolbar a::before {
+    color: red;
+}

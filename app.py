@@ -35,6 +35,30 @@ def save_file():
     
     return ret
 
+@app.route('/create_file', methods=['POST'])
+def create_file():
+    base_dir = './works'
+    filename = request.form.get('filename')
+    if not filename.endswith(".md"):
+        filename += ".md"
+    filepath = os.path.join(base_dir, filename)
+    if not os.path.exists(filepath):
+        with open(filepath, 'w'): pass
+        return "File made successfully", 200
+    else:
+        return f"!! `{filename}` has already existed. !!", 400
+
+@app.route('/create_directory', methods=['POST'])
+def create_directory():
+    base_dir = './works'
+    dir_name = request.form.get('dir_name')
+    dirpath = os.path.join(base_dir, dir_name)
+    if not os.path.exists(dirpath):
+        os.mkdir(dirpath)
+        return "Directoey made successfully", 200
+    else:
+        return f"!! `{dir_name}` has already existed. !!", 400
+
 @app.route('/rename_file', methods=['POST'])
 def rename_file():
     base_dir = './works'
