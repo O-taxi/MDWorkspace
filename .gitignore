@@ -2,7 +2,9 @@
 
 venv/
 
-/works
+/works/*
+!/works/sample.md
+!/works/todo.md
 test/
 
 # Byte-compiled / optimized / DLL files
