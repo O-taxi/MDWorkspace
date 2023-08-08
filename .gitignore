@@ -2,7 +2,7 @@
 
 venv/
 
-works/
+/works
 !/works/sample.md
 test/
 
