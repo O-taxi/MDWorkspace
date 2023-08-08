@@ -3,7 +3,6 @@
 venv/
 
 /works
-!/works/sample.md
 test/
 
 # Byte-compiled / optimized / DLL files
