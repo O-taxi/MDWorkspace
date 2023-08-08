@@ -1,14 +1,9 @@
 import os
 
-from flask import Flask, render_template, jsonify, send_from_directory, Markup, request
+from flask import Flask, render_template, jsonify, send_from_directory, request
 from markdown import markdown
 
 app = Flask(__name__)
-
-def read_md(filepath) -> str:
-    with open(filepath, mode='r') as mdfile:
-        mdcontent = mdfile.read()
-    return Markup(markdown(mdcontent))
 
 @app.route('/')
 def index():
@@ -49,8 +44,11 @@ def rename_file():
         new_name += ".md"
     old_path = os.path.join(base_dir, old_name)
     new_path = os.path.join(base_dir, new_name)
-    os.rename(old_path, new_path)  # ファイル名を変更
-    return "File renamed successfully", 200
+    if os.path.exists(old_path): 
+        os.rename(old_path, new_path)  # ファイル名を変更
+        return "File renamed successfully", 200
+    else:
+        return f"{old_path} does not exist", 404
 
 @app.route('/delete_file', methods=['POST'])
 def delete_file():
