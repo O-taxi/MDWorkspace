@@ -4,6 +4,8 @@ var simplemde = new EasyMDE({ element: document.getElementById("editor") });
 var currentFile = "";
 // 初期内容を保存
 var lastContent = simplemde.value();
+// グローバル変数としてオートセーブのインターバルIdを保持（一時停止と再開のため）
+let autoSaveIntervalId; 
 
 // previewの設定
 simplemde.codemirror.on("change", function(){
@@ -12,30 +14,31 @@ simplemde.codemirror.on("change", function(){
   });
 document.getElementById('preview').classList.add("markdown-body")
 
+// 内容の変更を確認してファイル保存
+function saveFile() {
+    var currentContent = simplemde.value();
+    if (lastContent !== currentContent) { // 変更がある場合のみ
+        $.ajax({
+            type: "POST",
+            url: "/save",
+            data: { 
+                content: currentContent, 
+                filename: currentFile
+            },
+            success: function(response) {
+                console.log("Saved successfully!");
+                lastContent = currentContent; // 現在の内容を保存
+            },
+            error: function(error) {
+                console.log("Error while saving:", error);
+            }
+        });
+    }
+}
 
-let autoSaveIntervalId; // グローバル変数としてintervalIdを保持
-// 内容の変更を確認して保存(5sごと)
+// インターバルでオート保存(5sごと)
 function startAutoSaveInterval() {
-    autoSaveIntervalId = setInterval(function() {
-        var currentContent = simplemde.value();
-        if (lastContent !== currentContent) { // 変更がある場合のみ
-            $.ajax({
-                type: "POST",
-                url: "/save",
-                data: { 
-                    content: currentContent, 
-                    filename: currentFile
-                },
-                success: function(response) {
-                    console.log("Saved successfully!");
-                    lastContent = currentContent; // 現在の内容を保存
-                },
-                error: function(error) {
-                    console.log("Error while saving:", error);
-                }
-            });
-        }
-    }, 5000); // 5秒ごとに実行
+    autoSaveIntervalId = setInterval(saveFile, 5000); // 5秒ごとに実行
 }
 
 // インターバルを停止
@@ -115,6 +118,7 @@ function updateFileList() {
 // ファイル名をクリックしたときに、そのファイルの内容を取得してエディタに表示
 $('#sidebar').on("click", '.file', function(){
     stopInterval(autoSaveIntervalId)
+    saveFile()
     currentFile = $(this).text() + ".md";
     $('#currentFile').text(currentFile);
     $.get('/file/' + currentFile, function(data){
@@ -123,11 +127,13 @@ $('#sidebar').on("click", '.file', function(){
     });
     startAutoSaveInterval()
 });
+
 // ディレクトリ名をクリックしたときに、ディレクトリ内のファイルを展開して表示
 $('#sidebar').on("click", '.directory', function(){
     $(this).text()
     // TODO
 });
+
 // ファイルコンテナにホバーしているときにメニューアイコンを表示
 $('#sidebar').on("mouseenter", ".file-container", function(){
     $(this).find('.menu-icon').show();
@@ -135,6 +141,7 @@ $('#sidebar').on("mouseenter", ".file-container", function(){
 $('#sidebar').on("mouseleave", ".file-container", function(){
     $(this).find('.menu-icon').hide();
 });
+
 // メニューアイコンをクリックされるとドロップダウンメニューが表示
 $("#sidebar").on('click', '.menu-icon', function() {
     // 他の開いているメニューを閉じる
@@ -142,6 +149,7 @@ $("#sidebar").on('click', '.menu-icon', function() {
     // クリックされたアイコンに対応するメニューをトグルする
     $(this).siblings('.dropdown-menu').toggle();
 });
+
 // 新規ファイル作成
 $(".sidebar").on('click', '#create-file-icon', function() {
     var newFileName = prompt("新しいファイル名を入力してください:");
@@ -152,6 +160,7 @@ $(".sidebar").on('click', '#create-file-icon', function() {
         });
     }
 });
+
 // 新規ディレクトリ作成
 $(".sidebar").on('click', '#create-dir-icon', function() {
     var newDirectoryName = prompt("新しいディレクトリ名を入力してください:");
@@ -162,6 +171,7 @@ $(".sidebar").on('click', '#create-dir-icon', function() {
         });
     }
 });
+
 // ドロップダウンメニュー外をクリックしたときにメニューを閉じる
 $(document).on('click', function(event) {
     if (!$(event.target).closest('.file-container').length) {
