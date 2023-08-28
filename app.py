@@ -11,19 +11,35 @@ def index():
     return render_template('index.html', filename=filename)
 
 @app.route('/files', methods=['GET'])
-def get_files():
+@app.route('/files/<path:subpath>', methods=['GET'])
+def get_files(subpath=None):
     base_dir = './works'
+    if subpath:
+        base_dir = os.path.join(base_dir, subpath)
+
     files = os.listdir(base_dir)
-    return jsonify(files)
+    file_list = []
+    for f in files:
+        full_path = os.path.join(base_dir, f)
+        
+        if os.path.isdir(full_path):
+            file_type = 'directory'
+        else:
+            file_type = 'file'
+        
+        file_list.append({"name": f, "type": file_type})
+    return jsonify(file_list)
 
 @app.route('/file/<path:filename>', methods=['GET'])
 def get_file(filename):
+    filename = filename
     base_dir = './works'
     return send_from_directory(base_dir, filename, as_attachment=False)
 
 @app.route('/save', methods=['POST'])
-def save_file():
+def save_file():    
     filename = request.form.get('filename')
+    filename = filename
     content = request.form.get('content')
     if type(filename) == str:
         filepath = os.path.join("./works", filename)
@@ -64,9 +80,10 @@ def rename_file():
     base_dir = './works'
     old_name = request.form.get('old_name')
     new_name = request.form.get('new_name')
-    if not new_name.endswith(".md"):
-        new_name += ".md"
+
     old_path = os.path.join(base_dir, old_name)
+    if not (os.path.isdir(old_path) or new_name.endswith(".md")):
+        new_name += ".md"
     new_path = os.path.join(base_dir, new_name)
     if os.path.exists(old_path): 
         os.rename(old_path, new_path)  # ファイル名を変更

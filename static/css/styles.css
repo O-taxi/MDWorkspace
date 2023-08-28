@@ -67,7 +67,7 @@ header {
   cursor: pointer;
 }
 
-.filename:hover {
+.itemname:hover {
   background-color: #e0e0e0; /* 背景色を変更 */
   color: #333;               /* 文字色を変更 */
 }
@@ -118,7 +118,7 @@ header {
   display: block;
 }
 
-.filename, .menu-icon {
+.itemname, .menu-icon {
   display: inline-block;
   vertical-align: middle;  /* アイコンとテキストを垂直方向の中央に揃える */
 }
