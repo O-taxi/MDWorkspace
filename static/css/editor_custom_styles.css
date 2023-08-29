@@ -12,8 +12,9 @@
     color: var(--font-color);
 }
 
+/* エディタのカーソル色 */
 .CodeMirror-cursor {
-border-left: 2px solid #dbd9f7;  /* 赤色に設定していますが、お好みの色に変更してください */
+border-left: 2px solid #dbd9f7; 
 }
 
 /* スペルチェック機能を除去（日本語が全てハイライトされてしまうため） */
@@ -41,7 +42,14 @@ border-left: 2px solid #dbd9f7;  /* 赤色に設定していますが、お好�
     font-size: 15px !important;
 }
 
+/* ここから下は機能してない */
 /* アイコンの色を変更 */
 .editor-toolbar a::before {
-    color: red;
+    color: red !important;
+}
+/* .task-list-item-checkbox { */
+    /* background-color: #ffffff;  チェックされたときの背景色 */
+/* } */
+input[type="checkbox"]:checked {
+    background-color: red !important;
 }

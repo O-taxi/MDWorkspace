@@ -1,5 +1,32 @@
+// チェックボックス表示機能の追加
+const renderer = new marked.Renderer();
+const originalListitem = renderer.listitem;
+renderer.listitem = function(text) {
+    if (/^\s*\[[x ]\]\s*/.test(text)) {
+        text = text
+            .replace(/^\s*\[ \]\s*/, '<input type="checkbox" class="task-list-item-checkbox" disabled> ')
+            .replace(/^\s*\[x\]\s*/, '<input type="checkbox" class="task-list-item-checkbox" checked disabled> ');
+    return '<li style="list-style: none">' + text + '</li>';
+    } else {
+        return originalListitem(text);
+    }
+};
 // SimpleMDEを初期化
-var simplemde = new EasyMDE({ element: document.getElementById("editor") });
+var simplemde = new EasyMDE({ 
+    element: document.getElementById("editor"),
+    renderingConfig: {
+        markedOptions: {
+            renderer: renderer
+        }
+    } 
+});
+// previewの設定
+simplemde.codemirror.on("change", function(){
+    var renderedHTML = marked(simplemde.value(), { renderer: renderer });
+    document.getElementById('preview').innerHTML = renderedHTML;
+  });
+document.getElementById('preview').classList.add("markdown-body")
+
 // 現在開いているファイル名を格納する変数
 var currentFile = "";
 // 初期内容を保存
@@ -7,12 +34,7 @@ var lastContent = simplemde.value();
 // グローバル変数としてオートセーブのインターバルIdを保持（一時停止と再開のため）
 let autoSaveIntervalId; 
 
-// previewの設定
-simplemde.codemirror.on("change", function(){
-    var renderedHTML = marked(simplemde.value());
-    document.getElementById('preview').innerHTML = renderedHTML;
-  });
-document.getElementById('preview').classList.add("markdown-body")
+
 
 // 内容の変更を確認してファイル保存
 function saveFile() {
