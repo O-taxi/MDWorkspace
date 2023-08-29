@@ -66,8 +66,16 @@ header {
 .clickable {
   cursor: pointer;
 }
-
-.itemname:hover {
+ 
+/*.itemname.hovered {
+/*  background-color: #e0e0e0; /* 背景色を変更 */
+/*  color: #333;               /* 文字色を変更 */
+/* } */
+.directory.hovered {
+  background-color: #e0e0e0; /* 背景色を変更 */
+  color: #333;               /* 文字色を変更 */
+}
+.file.hovered {
   background-color: #e0e0e0; /* 背景色を変更 */
   color: #333;               /* 文字色を変更 */
 }
@@ -127,3 +135,6 @@ header {
   display: inline-block;  /* ホバー時にボタンを表示します */
 }
 
+.directory > .file-container {
+  margin-left: 10px;  /* ズレを調整 */
+}

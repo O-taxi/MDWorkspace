@@ -16,18 +16,18 @@ def get_files(subpath=None):
     base_dir = './works'
     if subpath:
         base_dir = os.path.join(base_dir, subpath)
+    else:
+        subpath = ""
 
     files = os.listdir(base_dir)
     file_list = []
     for f in files:
         full_path = os.path.join(base_dir, f)
-        
         if os.path.isdir(full_path):
             file_type = 'directory'
         else:
             file_type = 'file'
-        
-        file_list.append({"name": f, "type": file_type})
+        file_list.append({"name": f, "type": file_type, "dir": subpath})
     return jsonify(file_list)
 
 @app.route('/file/<path:filename>', methods=['GET'])
@@ -78,13 +78,15 @@ def create_directory():
 @app.route('/rename_file', methods=['POST'])
 def rename_file():
     base_dir = './works'
+    filepath = request.form.get('filepath')
     old_name = request.form.get('old_name')
     new_name = request.form.get('new_name')
 
-    old_path = os.path.join(base_dir, old_name)
+    old_path = os.path.join(base_dir, filepath, old_name)
+    print(old_path)
     if not (os.path.isdir(old_path) or new_name.endswith(".md")):
         new_name += ".md"
-    new_path = os.path.join(base_dir, new_name)
+    new_path = os.path.join(base_dir, filepath, new_name)
     if os.path.exists(old_path): 
         os.rename(old_path, new_path)  # ファイル名を変更
         return "File renamed successfully", 200

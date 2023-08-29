@@ -50,10 +50,21 @@ function stopInterval(intervalId) {
 function createFileContainer(item) {
     // ファイルコンテナ
     let fileContainer = $('<div>').addClass('file-container');
-  
+    
     // アイテム名
-    let itemNameDiv = $('<div>').text((item.name).replace(/\.md$/, "")).addClass('itemname clickable file');
-  
+    let itemNameDiv = $('<div>').text((item.name).replace(/\.md$/, "")).addClass('itemname clickable');
+    itemNameDiv.addClass(item.type)
+
+    // ディレクトリの場合`▷`アイコンを表示
+    if (item.type == "directory") {
+        let icon = $('<i>').addClass('fas fa-caret-right');
+        itemNameDiv.prepend(icon, " ");
+    }
+
+    // nameとpathの登録
+    fileContainer.attr('filename', item.name);
+    fileContainer.attr('file-path', item.dir);
+
     // ファイル削除、名前変更のドロップダウンメニューを表示するためのボタン
     let menuButton = $('<button>').text('≡').addClass('menu-icon').hide(); // このボタンは最初は非表示です
   
@@ -68,11 +79,12 @@ function createRenameLink(item, updateFileList) {
     let renameLink = $('<a>').text('rename').addClass('rename clickable');
     renameLink.attr('href', "#");
     renameLink.on('click', function(event) {
+        event.stopPropagation();
         event.preventDefault();
         var newFileName = prompt("新しいファイル名を入力してください:");
         if (newFileName) {
             stopInterval(autoSaveIntervalId)
-            $.post('/rename_file', {old_name: item.name, new_name: newFileName}, function(data){
+            $.post('/rename_file', {old_name: item.name, new_name: newFileName, filepath: item.dir}, function(data){
                 alert(data);
                 updateFileList();
             });
@@ -120,17 +132,25 @@ function updateFileList() {
             let fileContainer = createFileContainer(item)
             let dropdownMenu = createDropdownMenu(item, updateFileList);
             fileContainer.append(dropdownMenu);
-
+            
             $('#sidebar').append(fileContainer);
         });
     });
 };
 
 // ファイル名をクリックしたときに、そのファイルの内容を取得してエディタに表示
-$('#sidebar').on("click", '.file', function(){
+$('#sidebar').on("click", '.file', function(event){
+    event.stopPropagation();
     stopInterval(autoSaveIntervalId)
     saveFile()
-    currentFile = $(this).text() + ".md";
+    const filename = $(this).closest('.file-container').attr("filename")
+    var filePath = $(this).closest('.file-container').attr("file-path")
+    if (filePath) {
+        currentFile = filePath + "/" + filename;
+    } else {
+        currentFile = filename;
+    }
+    
     $('#currentFile').text(currentFile);
     $.get('/file/' + currentFile, function(data){
     simplemde.value(data);
@@ -141,8 +161,42 @@ $('#sidebar').on("click", '.file', function(){
 
 // ディレクトリ名をクリックしたときに、ディレクトリ内のファイルを展開して表示
 $('#sidebar').on("click", '.directory', function(){
-    $(this).text()
-    // TODO
+    const dirName = $(this).closest('.file-container').attr("filename");
+    const dirContainer = this
+    
+    // アイコンの状態に応じて処理
+    const icon = $(this).find('i');
+    if (icon.hasClass('fa-caret-right')) {
+        // ディレクトリを開く処理
+        icon.removeClass('fa-caret-right').addClass('fa-caret-down');
+        $.getJSON('/files/' + dirName, function(data) {
+            data.forEach(function(item){
+                let fileContainer = createFileContainer(item)
+                let dropdownMenu = createDropdownMenu(item, updateFileList);
+                fileContainer.append(dropdownMenu);
+                $(dirContainer).append(fileContainer)
+            })
+        });
+    } else {
+        // ディレクトリを閉じる処理
+        icon.removeClass('fa-caret-down').addClass('fa-caret-right');
+        $(dirContainer).find('.file-container:not(dirContainer)').remove()
+    }
+});
+
+// ファイルコンテナにホバーしているときにメニューアイコンを表示
+$('#sidebar').on("mouseenter", '.directory, .file', function(event){
+    if (event.target === event.currentTarget) {
+        $(this).addClass('hovered');
+      }
+});
+$('#sidebar').on("mouseleave", '.directory, .file', function(event){
+    if (event.target === event.currentTarget) {
+        $(this).removeClass('hovered');
+    }
+});
+$('#sidebar').on("mouseenter", '.directory, .file', function(){
+    $(this).closest('.directory:not(this)').removeClass("hovered");
 });
 
 // ファイルコンテナにホバーしているときにメニューアイコンを表示
@@ -154,7 +208,8 @@ $('#sidebar').on("mouseleave", ".file-container", function(){
 });
 
 // メニューアイコンをクリックされるとドロップダウンメニューが表示
-$("#sidebar").on('click', '.menu-icon', function() {
+$("#sidebar").on('click', '.menu-icon', function(event) {
+    event.stopPropagation();
     // 他の開いているメニューを閉じる
     $('.dropdown-menu').hide();
     // クリックされたアイコンに対応するメニューをトグルする
