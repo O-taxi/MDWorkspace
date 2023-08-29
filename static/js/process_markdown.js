@@ -46,6 +46,23 @@ function stopInterval(intervalId) {
     clearInterval(intervalId);
 }
 
+// ファイルコンテナ生成
+function createFileContainer(item) {
+    // ファイルコンテナ
+    let fileContainer = $('<div>').addClass('file-container');
+  
+    // アイテム名
+    let itemNameDiv = $('<div>').text((item.name).replace(/\.md$/, "")).addClass('itemname clickable file');
+  
+    // ファイル削除、名前変更のドロップダウンメニューを表示するためのボタン
+    let menuButton = $('<button>').text('≡').addClass('menu-icon').hide(); // このボタンは最初は非表示です
+  
+    // コンテナに要素を追加
+    fileContainer.append(itemNameDiv, menuButton);
+  
+    return fileContainer;
+}
+
 // 名前変更リンク生成
 function createRenameLink(item, updateFileList) {
     let renameLink = $('<a>').text('rename').addClass('rename clickable');
@@ -100,15 +117,9 @@ function updateFileList() {
     $.getJSON('/files', function(data){
         // ファイルコンテナをサイドバーに追加
         data.forEach(function(item){
-            let fileContainer = $('<div>').addClass('file-container');
-            let itemNameDiv = $('<div>').text((item.name).replace(/\.md$/, "")).addClass('itemname clickable');
-            itemNameDiv.addClass(item.type); // 'file'または'directory'をクラスとして追加
-
-            // ファイル削除、名前変更のドロップダウンメニュー
-            let menuButton = $('<button>').text('≡').addClass('menu-icon').hide(); // このボタンは最初は非表示です
+            let fileContainer = createFileContainer(item)
             let dropdownMenu = createDropdownMenu(item, updateFileList);
-
-            fileContainer.append(itemNameDiv, menuButton, dropdownMenu);
+            fileContainer.append(dropdownMenu);
 
             $('#sidebar').append(fileContainer);
         });
