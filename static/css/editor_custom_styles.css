@@ -1,7 +1,7 @@
 :root {
     /* --font-color: #f5f5f5; */
     --background-color: #35395c;
-    --editor-background-color: #252952;
+    --editor-background-color: #393c5c;
     --line-color: #808080;
   }
 
@@ -40,16 +40,4 @@ border-left: 2px solid #dbd9f7;
 }
 .cm-s-easymde .cm-header-6 {
     font-size: 15px !important;
-}
-
-/* ここから下は機能してない */
-/* アイコンの色を変更 */
-.editor-toolbar a::before {
-    color: red !important;
-}
-/* .task-list-item-checkbox { */
-    /* background-color: #ffffff;  チェックされたときの背景色 */
-/* } */
-input[type="checkbox"]:checked {
-    background-color: red !important;
 }

@@ -6,12 +6,13 @@
 }
 
 body {
-  background-color: var(--background-color); /* ここに好きな色のコードを入れる */
+  background-color: var(--background-color);
 }
 
 header {
-  background-color: var(--background-color); /* ここに好きな色のコードを入れる */
+  background-color: var(--background-color);
   color: var(--font-color);
+  margin-bottom: 10px;
 }
 
 .main {
@@ -62,6 +63,15 @@ header {
   width: 100%;  /* プレビューの幅を親要素に合わせる */
   height: 100%; /* プレビューの高さを親要素に合わせる */
 }
+
+#search {
+  font-size: 15px;
+}
+
+#toggle-edit-preview {
+  font-size: 12px;
+}
+
 
 .clickable {
   cursor: pointer;

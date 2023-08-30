@@ -16,6 +16,3 @@ print("Hello World!")
 - [x] 出来た？
 
 
-
-
-

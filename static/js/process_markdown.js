@@ -260,6 +260,26 @@ $(".sidebar").on('click', '#create-dir-icon', function() {
     }
 });
 
+document.addEventListener('DOMContentLoaded', (event) => {
+    let isPreviewMode = false;  // 現在のモードを記録する変数
+  
+    document.getElementById('toggle-edit-preview').addEventListener('click', function() {
+        const editorDiv = document.querySelector('.editor');
+        const previewDiv = document.querySelector('.preview');
+      
+        if (isPreviewMode) {
+            // プレビューモードから編集モードに切り替え
+            editorDiv.style.display = 'block';
+            this.textContent = '編集/プレビュー切替';
+        } else {
+            // 編集モードからプレビューモードに切り替え
+            editorDiv.style.display = 'none';
+            this.textContent = 'プレビュー/編集切替';
+        }
+        isPreviewMode = !isPreviewMode;
+    });
+});
+
 // ドロップダウンメニュー外をクリックしたときにメニューを閉じる
 $(document).on('click', function(event) {
     if (!$(event.target).closest('.file-container').length) {

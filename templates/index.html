@@ -19,14 +19,15 @@
 <body>
   <header>
     <h1 id="currentFile">{{ filename }}</h1>  <!-- 今開いているファイル名を表示 -->
-    <input type="text" id="search" placeholder="検索...">
+    <input type="text" id="search" placeholder="検索..."> <!-- 検索機能は未実装 -->
+    <button id="toggle-edit-preview">編集/プレビュー切替</button>
   </header>
 
   <div class="main">
     <div class="sidebar">
       ファイル一覧
-      <img title="新規ファイルを作成" id="create-file-icon" src="{{ url_for('static', filename='images/add_file.png') }}" alt="Create new file" width="10%">
-      <img title="新規フォルダを作成" id="create-dir-icon" src="{{ url_for('static', filename='images/add_folder.png') }}" alt="Create new directory" width="10%">
+      <img title="新規ファイルを作成" id="create-file-icon" src="{{ url_for('static', filename='images/add_file.png') }}" alt="Create new file" width="18px">
+      <img title="新規フォルダを作成" id="create-dir-icon" src="{{ url_for('static', filename='images/add_folder.png') }}" alt="Create new directory" width="18px">
       <div id="sidebar"></div>
     </div>
     <div class="editor">

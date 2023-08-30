@@ -37,7 +37,7 @@ def get_file(filename):
     return send_from_directory(base_dir, filename, as_attachment=False)
 
 @app.route('/save', methods=['POST'])
-def save_file():    
+def save_file():
     filename = request.form.get('filename')
     filename = filename
     content = request.form.get('content')
