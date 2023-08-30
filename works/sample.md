@@ -10,8 +10,13 @@ print("Hello World!")
 [github markdown css](https://github.com/sindresorhus/github-markdown-css/tree/main)
 - 画像
 	- `/static`下に置くことで`/static/<path_to_file>`とすることで画像表示可能
-		- Flaskの機能で配信してるっぽい。  
+		- Flaskの機能で配信してるっぽい。
+		- マークダウンもHTMLも機能してる。
+			- `![<画像の名前>](/static/<path_to_file>)`
+			- `<img src="/static/<path_to_file>" width="<size(px)>">`
+
 ![ファイル追加](/static/images/add_file.png)
+<img src="/static/images/add_file.png" width="65">
 
 チェックボックス  
 - [ ] aaa  
