@@ -33,11 +33,14 @@ var currentFile = "";
 var lastContent = simplemde.value();
 // グローバル変数としてオートセーブのインターバルIdを保持（一時停止と再開のため）
 let autoSaveIntervalId; 
-
-
+// 現在の編集/プレビューのモードがどちらか記録する変数
+let isPreviewMode = false;  
 
 // 内容の変更を確認してファイル保存
 function saveFile() {
+    if (isPreviewMode) {
+        return;
+    }
     var currentContent = simplemde.value();
     if (lastContent !== currentContent) { // 変更がある場合のみ
         $.ajax({
@@ -261,24 +264,21 @@ $(".sidebar").on('click', '#create-dir-icon', function() {
 });
 
 // 編集、プレビューモード切り替えボタンの挙動
-document.addEventListener('DOMContentLoaded', (event) => {
-    let isPreviewMode = false;  // 現在のモードを記録する変数
-  
-    document.getElementById('toggle-edit-preview').addEventListener('click', function() {
-        const editorDiv = document.querySelector('.editor');
-        const previewDiv = document.querySelector('.preview');
+$(document).on('click', '#toggle-edit-preview', function(event) {
+    const editorDiv = document.querySelector('.editor');
+    const previewDiv = document.querySelector('.preview');
       
-        if (isPreviewMode) {
-            // プレビューモードから編集モードに切り替え
-            editorDiv.style.display = 'block';
-            this.textContent = '編集/プレビュー切替';
-        } else {
-            // 編集モードからプレビューモードに切り替え
-            editorDiv.style.display = 'none';
-            this.textContent = 'プレビュー/編集切替';
-        }
-        isPreviewMode = !isPreviewMode;
-    });
+    if (isPreviewMode) {
+        // プレビューモードから編集モードに切り替え
+        editorDiv.style.display = 'block';
+        this.textContent = '編集/プレビュー切替';
+    } else {
+        // 編集モードからプレビューモードに切り替え
+        saveFile()
+        editorDiv.style.display = 'none';
+        this.textContent = 'プレビュー/編集切替';
+    }
+    isPreviewMode = !isPreviewMode;
 });
 
 // ドロップダウンメニュー外をクリックしたときにメニューを閉じる
@@ -291,5 +291,4 @@ $(document).on('click', function(event) {
 // ページロード時の動作
 $(document).ready(function(){
     updateFileList()
-    startAutoSaveInterval()
 });

@@ -9,6 +9,10 @@ def index():
     filename = 'Please choice file to open.'  # 仮のファイル名
     return render_template('index.html', filename=filename)
 
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(os.path.join(app.root_path, 'static'), '/images/favicon.ico', mimetype='image/vnd.microsoft.icon')
+
 @app.route('/files', methods=['GET'])
 @app.route('/files/<path:subpath>', methods=['GET'])
 def get_files(subpath=None):
