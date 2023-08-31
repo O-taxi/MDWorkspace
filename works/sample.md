@@ -19,8 +19,7 @@ print("Hello World!")
 <img src="/static/images/add_file.png" width="65">
 
 チェックボックス  
-- [ ] aaa  
-- [x] aaa
-- [x] 出来た？
+- [ ] 未チェック`- [ ]`
+- [x] チェック `- [x]`
 
 

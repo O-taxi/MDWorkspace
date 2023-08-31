@@ -260,6 +260,7 @@ $(".sidebar").on('click', '#create-dir-icon', function() {
     }
 });
 
+// 編集、プレビューモード切り替えボタンの挙動
 document.addEventListener('DOMContentLoaded', (event) => {
     let isPreviewMode = false;  // 現在のモードを記録する変数
   
