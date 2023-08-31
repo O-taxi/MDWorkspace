@@ -292,3 +292,11 @@ $(document).on('click', function(event) {
 $(document).ready(function(){
     updateFileList()
 });
+
+// ウィンドウを閉じるときの動作（開いているファイルを保存する）
+$(window).on('beforeunload', function() {
+    if (!isPreviewMode) {
+        saveFile();
+        return "Latest changes saved!";
+    }
+});
