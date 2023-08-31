@@ -1,6 +1,8 @@
 .vscode/
 
 venv/
+build/
+dist/
 
 /works/*
 !/works/sample.md

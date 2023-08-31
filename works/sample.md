@@ -19,7 +19,7 @@ print("Hello World!")
 <img src="/static/images/add_file.png" width="65">
 
 チェックボックス  
-- [ ] 未チェック`- [ ]`
-- [x] チェック `- [x]`
+- [ ] `- [ ]`：未チェック
+- [x] `- [x]`：チェック
 
 
