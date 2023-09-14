@@ -18,6 +18,13 @@ print("Hello World!")
 ![ファイル追加](/static/images/add_file.png)
 <img src="/static/images/add_file.png" width="65">
 
-チェックボックス  
-- [ ] `- [ ]`：未チェック
-- [x] `- [x]`：チェック
+- チェックボックス  
+	- [ ] `- [ ]`：未チェック
+	- [x] `- [x]`：チェック
+
+- 数式
+	- ```math
+	a = b
+	\frac{1}{2} - \frac{1}{3} = \frac{1}{6} \
+  \frac{a+b}{2ab}
+	```
