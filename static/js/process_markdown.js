@@ -24,6 +24,7 @@ var simplemde = new EasyMDE({
 simplemde.codemirror.on("change", function(){
     var renderedHTML = marked(simplemde.value(), { renderer: renderer });
     document.getElementById('preview').innerHTML = renderedHTML;
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, 'preview']);
   });
 document.getElementById('preview').classList.add("markdown-body")
 
@@ -181,6 +182,7 @@ $('#sidebar').on("click", '.file', function(event){
     simplemde.value(data);
     lastContent = simplemde.value();
     });
+
     startAutoSaveInterval()
 });
 

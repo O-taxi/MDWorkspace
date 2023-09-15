@@ -23,8 +23,21 @@ print("Hello World!")
 	- [x] `- [x]`：チェック
 
 - 数式
-	- ```math
-	a = b
-	\frac{1}{2} - \frac{1}{3} = \frac{1}{6} \
-  \frac{a+b}{2ab}
-	```
+	- `\\\[ <数式> \\\]`という風に書くことで数式が書ける。
+	- レンダリングに少しラグがあるのがちょっと気になるけどそんなに数式書くことないと思うからいいか。
+
+\\\[
+a^2 + b^2 = c^2
+\\\]
+\\\[
+dU = -p~\\left\\{\\left(\\frac {\\partial V}{\\partial T}\\right)_p dT + \\left(\\frac {\\partial V}{\\partial p}\\right)_T\\right\\} + dQ \\tag{1}
+\\\]
+
+
+- html
+	- htmlタグもある程度使えるっぽい。
+		- 例１：`<h3><font color="red">こんにちは</font></h4>` 
+		<h3><font color="red">こんにちは</font></h4>
+		- 例２：`<div style="color: #FF5733;">This is an orange text.</div>`  
+		<div style="color: #FF5733;">This is an orange text.</div>
+	
