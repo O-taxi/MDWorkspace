@@ -16,7 +16,7 @@ print("Hello World!")
 			- `<img src="/static/<path_to_file>" width="<size(px)>">`
 
 ![ファイル追加](/static/images/add_file.png)
-<img src="/static/images/add_file.png" width="65">
+<img src="/static/images/add_file.png" width="40">
 
 - チェックボックス  
 	- [ ] `- [ ]`：未チェック
@@ -36,8 +36,10 @@ dU = -p~\\left\\{\\left(\\frac {\\partial V}{\\partial T}\\right)_p dT + \\left(
 
 - html
 	- htmlタグもある程度使えるっぽい。
-		- 例１：`<h3><font color="red">こんにちは</font></h4>` 
-		<h3><font color="red">こんにちは</font></h4>
+		- 例１：`<h3><font color="red">こんにちは</font></h3>` 
+		<h3><font color="red">こんにちは</font></h3>
 		- 例２：`<div style="color: #FF5733;">This is an orange text.</div>`  
 		<div style="color: #FF5733;">This is an orange text.</div>
+		- 例３：`<div style="text-align: center">センター</div>`
+		<div style="text-align: center">センター</div>
 	

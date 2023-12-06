@@ -11,6 +11,7 @@ renderer.listitem = function(text) {
         return originalListitem(text);
     }
 };
+
 // SimpleMDEを初期化
 var simplemde = new EasyMDE({ 
     element: document.getElementById("editor"),
@@ -20,6 +21,7 @@ var simplemde = new EasyMDE({
         }
     } 
 });
+
 // previewの設定
 simplemde.codemirror.on("change", function(){
     var renderedHTML = marked(simplemde.value(), { renderer: renderer });
@@ -30,6 +32,8 @@ document.getElementById('preview').classList.add("markdown-body")
 
 // 現在開いているファイル名を格納する変数
 var currentFile = "";
+// 選択中のディレクトリ名を格納する変数
+var dirName = "";
 // 初期内容を保存
 var lastContent = simplemde.value();
 // グローバル変数としてオートセーブのインターバルIdを保持（一時停止と再開のため）
@@ -129,7 +133,12 @@ function createDeleteLink(item, updateFileList) {
         var confirmDelete = confirm("削除したファイルは元に戻せません。本当にファイルを削除しますか？");
         if (confirmDelete) {
             stopInterval(autoSaveIntervalId)
-            $.post('/delete_file', {filename: item.name}, function(data){
+            if (dirName) {
+                deleteFileName = dirName + "/" + item.name;
+            } else {
+                deleteFileName = item.name;
+            }
+            $.post('/delete_file', {filename: deleteFileName}, function(data){
                 alert(data);
                 updateFileList();
             });
@@ -188,13 +197,12 @@ $('#sidebar').on("click", '.file', function(event){
 
 // ディレクトリ名をクリックしたときに、ディレクトリ内のファイルを展開して表示
 $('#sidebar').on("click", '.directory', function(){
-    const dirName = $(this).closest('.file-container').attr("filename");
     const dirContainer = this
-    
     // アイコンの状態に応じて処理
     const icon = $(this).find('i');
     if (icon.hasClass('fa-caret-right')) {
         // ディレクトリを開く処理
+        dirName = $(this).closest('.file-container').attr("filename");
         icon.removeClass('fa-caret-right').addClass('fa-caret-down');
         $.getJSON('/files/' + dirName, function(data) {
             data.forEach(function(item){
@@ -206,8 +214,16 @@ $('#sidebar').on("click", '.directory', function(){
         });
     } else {
         // ディレクトリを閉じる処理
+        dirName = ''
         icon.removeClass('fa-caret-down').addClass('fa-caret-right');
         $(dirContainer).find('.file-container:not(dirContainer)').remove()
+    }
+});
+
+$('#sidebar').on("click", function(e) {
+    if (!$(e.target).hasClass('directory')) {
+        dirName = ''; // .directory 以外がクリックされた場合、dirName をリセット
+        console.log("reset dirName")
     }
 });
 
@@ -247,6 +263,9 @@ $("#sidebar").on('click', '.menu-icon', function(event) {
 $(".sidebar").on('click', '#create-file-icon', function() {
     var newFileName = prompt("新しいファイル名を入力してください:");
     if (newFileName) {
+        if (dirName) {
+            newFileName = dirName + "/" + newFileName;
+        }
         $.post('/create_file', {filename: newFileName}, function(data){
             alert(data);
             updateFileList();
