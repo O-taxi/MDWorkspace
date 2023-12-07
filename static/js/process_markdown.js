@@ -13,7 +13,7 @@ renderer.listitem = function(text) {
 };
 
 // SimpleMDEを初期化
-var simplemde = new EasyMDE({ 
+var easymde = new EasyMDE({ 
     element: document.getElementById("editor"),
     renderingConfig: {
         markedOptions: {
@@ -23,9 +23,12 @@ var simplemde = new EasyMDE({
 });
 
 // previewの設定
-simplemde.codemirror.on("change", function(){
-    var renderedHTML = marked(simplemde.value(), { renderer: renderer });
+easymde.codemirror.on("change", function(){
+    var renderedHTML = marked(easymde.value(), { renderer: renderer });
     document.getElementById('preview').innerHTML = renderedHTML;
+    document.querySelectorAll('pre code').forEach((block) => {
+        hljs.highlightBlock(block);
+    });
     MathJax.Hub.Queue(["Typeset", MathJax.Hub, 'preview']);
   });
 document.getElementById('preview').classList.add("markdown-body")
@@ -35,7 +38,7 @@ var currentFile = "";
 // 選択中のディレクトリ名を格納する変数
 var dirName = "";
 // 初期内容を保存
-var lastContent = simplemde.value();
+var lastContent = easymde.value();
 // グローバル変数としてオートセーブのインターバルIdを保持（一時停止と再開のため）
 let autoSaveIntervalId; 
 // 現在の編集/プレビューのモードがどちらか記録する変数
@@ -46,7 +49,7 @@ function saveFile() {
     if (isPreviewMode) {
         return;
     }
-    var currentContent = simplemde.value();
+    var currentContent = easymde.value();
     if (lastContent !== currentContent) { // 変更がある場合のみ
         $.ajax({
             type: "POST",
@@ -188,8 +191,8 @@ $('#sidebar').on("click", '.file', function(event){
     
     $('#currentFile').text(currentFile);
     $.get('/file/' + currentFile, function(data){
-    simplemde.value(data);
-    lastContent = simplemde.value();
+    easymde.value(data);
+    lastContent = easymde.value();
     });
 
     startAutoSaveInterval()
