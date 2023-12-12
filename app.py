@@ -22,7 +22,7 @@ def get_files(subpath=None):
     else:
         subpath = ""
 
-    files = os.listdir(base_dir)
+    files = sorted(os.listdir(base_dir))
     file_list = []
     for f in files:
         full_path = os.path.join(base_dir, f)
