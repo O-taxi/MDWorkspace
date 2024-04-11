@@ -1,0 +1,27 @@
+.board {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 10px;
+    width: 300px;
+    height: 300px;
+    margin: 0 auto;
+  }
+  
+.cell {
+    width: 100px;
+    height: 100px;
+    background-color: #eee;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 50px;
+    cursor: pointer;
+  }
+
+#resetButton {
+    display: block;
+    width: 150px;
+    height: 50px;
+    font-size: 18px;
+    margin: 30px auto 0;
+}

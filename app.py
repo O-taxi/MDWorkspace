@@ -9,6 +9,10 @@ def index():
     filename = 'Please choice file to open.'  # 仮のファイル名
     return render_template('index.html', filename=filename)
 
+@app.route('/tictactoe')
+def tictactoe():
+    return render_template('tictactoe.html')
+
 @app.route('/favicon.ico')
 def favicon():
     return send_from_directory(os.path.join(app.root_path, 'static'), '/images/favicon.ico', mimetype='image/vnd.microsoft.icon')

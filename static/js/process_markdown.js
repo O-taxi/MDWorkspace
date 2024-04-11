@@ -33,6 +33,8 @@ easymde.codemirror.on("change", function(){
   });
 document.getElementById('preview').classList.add("markdown-body")
 
+// 現在のパスを格納する変数
+var currentPath = "";
 // 現在開いているファイル名を格納する変数
 var currentFile = "";
 // 選択中のディレクトリ名を格納する変数
@@ -83,7 +85,6 @@ function stopInterval(intervalId) {
 function createFileContainer(item) {
     // ファイルコンテナ
     let fileContainer = $('<div>').addClass('file-container');
-    
     // アイテム名
     let itemNameDiv = $('<div>').text((item.name).replace(/\.md$/, "")).addClass('itemname clickable');
     itemNameDiv.addClass(item.type)
@@ -206,6 +207,7 @@ $('#sidebar').on("click", '.directory', function(){
     if (icon.hasClass('fa-caret-right')) {
         // ディレクトリを開く処理
         dirName = $(this).closest('.file-container').attr("filename");
+        $('#selectedDir').text(dirName);
         icon.removeClass('fa-caret-right').addClass('fa-caret-down');
         $.getJSON('/files/' + dirName, function(data) {
             data.forEach(function(item){
@@ -218,6 +220,7 @@ $('#sidebar').on("click", '.directory', function(){
     } else {
         // ディレクトリを閉じる処理
         dirName = ''
+        $('#selectedDir').text("Directory is not selected.");
         icon.removeClass('fa-caret-down').addClass('fa-caret-right');
         $(dirContainer).find('.file-container:not(dirContainer)').remove()
     }
@@ -268,6 +271,8 @@ $(".sidebar").on('click', '#create-file-icon', function() {
     if (newFileName) {
         if (dirName) {
             newFileName = dirName + "/" + newFileName;
+        } else {
+            console.log("dir not selected")
         }
         $.post('/create_file', {filename: newFileName}, function(data){
             alert(data);
